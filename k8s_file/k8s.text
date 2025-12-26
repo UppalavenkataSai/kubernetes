@@ -1,1 +1,86 @@
 
+🖥️ Daily Kubernetes & EKS Commands Cheat Sheet
+1️⃣ Cluster Management (eksctl / AWS CLI)
+Command	Description
+eksctl create cluster --name my-cluster --region us-east-1 --nodes 2 --node-type t3.medium	Create a new EKS cluster
+eksctl get cluster	List all EKS clusters
+eksctl delete cluster --name my-cluster --region us-east-1	Delete a cluster
+eksctl utils associate-iam-oidc-provider --region us-east-1 --cluster my-cluster --approve	Set up OIDC for IAM roles
+aws eks update-kubeconfig --name my-cluster --region us-east-1	Configure kubectl to connect to EKS
+aws eks list-clusters	List EKS clusters via AWS CLI
+2️⃣ Basic Cluster Info (kubectl)
+Command	Description
+kubectl cluster-info	Show cluster info
+kubectl get nodes	List all nodes
+kubectl describe node <node-name>	Detailed info about a node
+kubectl get namespaces	List all namespaces
+kubectl config current-context	Show current cluster context
+3️⃣ Pods Management
+Command	Description
+kubectl get pods	List all pods in current namespace
+kubectl get pods -n <namespace>	List pods in specific namespace
+kubectl describe pod <pod-name>	Detailed info about a pod
+kubectl logs <pod-name>	View pod logs
+kubectl logs -f <pod-name>	Stream logs continuously
+kubectl exec -it <pod-name> -- /bin/bash	Enter pod shell
+kubectl delete pod <pod-name>	Delete a pod
+kubectl get pods --watch	Monitor pods continuously
+kubectl get pod <pod-name> -o wide	See node hosting the pod
+4️⃣ Deployments & ReplicaSets
+Command	Description
+kubectl apply -f deployment.yaml	Create/update deployment
+kubectl get deployments	List deployments
+kubectl describe deployment <name>	Details of deployment
+kubectl scale deployment <name> --replicas=N	Scale deployment
+kubectl delete deployment <name>	Delete deployment
+kubectl get rs	List ReplicaSets
+kubectl describe rs <name>	Describe a ReplicaSet
+kubectl scale rs <name> --replicas=N	Scale ReplicaSet
+kubectl delete rs <name>	Delete ReplicaSet
+5️⃣ Services
+Command	Description
+kubectl get svc	List services
+kubectl describe svc <name>	Describe a service
+kubectl delete svc <name>	Delete a service
+
+Common Service Types:
+
+ClusterIP → Internal only
+
+NodePort → External access via node IP
+
+LoadBalancer → Cloud LB for external access
+
+6️⃣ Namespaces
+Command	Description
+kubectl get ns	List namespaces
+kubectl create ns <name>	Create namespace
+kubectl delete ns <name>	Delete namespace
+kubectl get all -n <namespace>	List all resources in namespace
+7️⃣ Scaling & Updating
+Command	Description
+kubectl scale deployment <name> --replicas=N	Scale deployment
+kubectl scale rs <name> --replicas=N	Scale ReplicaSet
+kubectl apply -f <file>.yaml	Apply updated configuration
+kubectl replace -f <file>.yaml	Replace resource definition
+8️⃣ Debugging & Monitoring
+Command	Description
+kubectl logs <pod>	Show pod logs
+kubectl logs -f <pod>	Stream logs live
+kubectl exec -it <pod> -- /bin/bash	Enter pod shell
+kubectl top nodes	Show node CPU/memory usage
+kubectl top pods	Show pod CPU/memory usage
+kubectl get events	Show cluster events
+kubectl port-forward <pod> <local>:<pod-port>	Forward pod port to local machine
+9️⃣ YAML Validation / Dry-run
+Command	Description
+kubectl apply -f <file>.yaml --dry-run=client	Test manifest locally
+kubectl apply -f <file>.yaml --dry-run=server	Test manifest against API server
+kubectl diff -f <file>.yaml	Show changes before applying
+10️⃣ Cleanup
+Command	Description
+kubectl delete all --all	Delete all resources in current namespace
+kubectl delete -f <file>.yaml	Delete resources from YAML
+kubectl delete pod <pod>	Delete specific pod
+kubectl delete deployment <name>	Delete deployment
+kubectl delete rs <name>	Delete ReplicaSet
