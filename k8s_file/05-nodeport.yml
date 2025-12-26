@@ -1,0 +1,16 @@
+#This manifest file defines a Kubernetes nodeport Service to expose Pods on each Node's IP at a static port.
+apiVersion: v1  
+kind: Service
+metadata: 
+  name: my-nodeport-service
+  labels:
+    app: my-app 
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80    # the port that will be exposed by the Service
+      targetPort: 80 # this should match the containerPort in the Deployment docker container
+      nodePort: 30000
+  type: NodePort
